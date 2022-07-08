@@ -25,19 +25,17 @@ public class ilController{
     private final ilService ilService;
 
     @GetMapping
-    public ResponseEntity<List<il>> getiller(){
-
-        return new  ResponseEntity<>(iller, org.springframework.http.HttpStatus.valueOf(HttpStatus.SC_OK));
+    public ResponseEntity<List<il>> getiller(String name){
+        return new  ResponseEntity<>(ilService.getiller(name), org.springframework.http.HttpStatus.valueOf(HttpStatus.SC_OK));
     }
-
-    @GetMapping("/{id}")
+        @GetMapping("/{id}")
     public ResponseEntity<il> getil(@PathVariable String id) {
         return new ResponseEntity<>(getilById(id), org.springframework.http.HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<il> createil(@RequestBody il newil){
-        return new ResponseEntity<>(ilService.createil(newil), org.springframework.http.HttpStatus.CREATED)
+        return new ResponseEntity<>(ilService.createil(newil), org.springframework.http.HttpStatus.CREATED);
     }
 
     @PutMapping
@@ -45,6 +43,8 @@ public class ilController{
         il oldil=getilById(id);
         oldil.setName(newil.getName());
         oldil.setCreatedate(new Date());
+
+        ilService.updateil(id,newil);
 
         return new ResponseEntity<>(org.springframework.http.HttpStatus.OK);
     }
@@ -59,8 +59,7 @@ public class ilController{
     public il getilById(String id){
         ilService.getilById(id);
 
-
-
+        return null;
     }
 
 }
